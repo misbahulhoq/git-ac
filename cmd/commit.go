@@ -191,14 +191,16 @@ func CheckAndStage() {
 		fmt.Println("-----------------------------------------")
 
 		// Use your standard confirmation function
-		if utils.Confirm(" Do you want to run 'git add .' to include them? (Y/n): ") {
-			fmt.Println("📦 Running git add . ...")
-			err := exec.Command("git", "add", ".").Run()
-			if err != nil {
-				fmt.Println("❌ Error staging files:", err)
-				os.Exit(1)
-			}
-			fmt.Println("✅ Files staged.")
+		if !utils.Confirm(" Do you want to run 'git add .' to include them? (Y/n): ") {
+			// TODO: Add a way to skip this step
 		}
+
+		fmt.Println("📦 Running git add . ...")
+		err := exec.Command("git", "add", ".").Run()
+		if err != nil {
+			fmt.Println("❌ Error staging files:", err)
+			os.Exit(1)
+		}
+		fmt.Println("✅ Files staged.")
 	}
 }
