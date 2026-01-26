@@ -195,13 +195,13 @@ func CheckAndStage() *bool {
 			return &stage
 		}
 
-		fmt.Println("📦 Running git add . ...")
+		color.Yellow("📦 Running git add . ...")
 		err := exec.Command("git", "add", ".").Run()
 		if err != nil {
 			fmt.Println("❌ Error staging files:", err)
 			os.Exit(1)
 		}
-		fmt.Println("✅ Files staged.")
+		color.Green("✅ Files staged.")
 
 	}
 	return nil
