@@ -1,6 +1,7 @@
 /*
-Copyright © 2026 NAME HERE <EMAIL ADDRESS>
+Copyright © 2026 Md Mezbah Uddin extraordinarymisbah@gmail.com
 */
+
 package main
 
 import (
