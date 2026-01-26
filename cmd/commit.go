@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/misbahulhoq/gcm/utils"
 	"github.com/spf13/cobra"
 )
@@ -16,13 +17,8 @@ import (
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
 	Use:   "commit",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Commit all the changes by default. Use --staged to commit only the staged changes.",
+	Long:  `Run this command to commit all the changes by default. Use --staged to commit only the staged changes. If you want to commit only the staged changes, run "git add" first.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if !IsGitRepo() {
@@ -38,13 +34,11 @@ to quickly create a Cobra application.`,
 		var diff string
 		var err error
 		commitStagedChanges, _ = cmd.Flags().GetBool("staged")
-		//commitAllChanges, _ = cmd.Flags().GetBool("all")
 
 		if commitStagedChanges {
 			diff, err = GetStagedChanges()
 			if err != nil {
 				fmt.Println(err)
-
 			}
 		} else {
 			diff, err = GetAllChanges()
@@ -55,20 +49,12 @@ to quickly create a Cobra application.`,
 
 		message := utils.GetMeaningfulCommitMessage(diff)
 		Commit(message)
-
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(commitCmd)
-	// Here you will define your flags and configuration settings.
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// commitCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
 	commitCmd.Flags().BoolP("staged", "s", false, "Commit the staged changes")
 	commitCmd.Flags().BoolP("all", "a", true, "Commit both staged and unstaged changes.")
 }
@@ -102,22 +88,31 @@ func GetStagedChanges() (string, error) {
 }
 
 func GetAllChanges() (string, error) {
-	CheckAndStage()
+	var didStage = CheckAndStage()
 
-	cmd := exec.Command("git", "diff")
-	output, err := cmd.Output()
+	// If did CheckAndStage() function returns nil that means no changes found or the user has run  "git add .". In that case we operate it as if the user has run "git add ."
+	if didStage == nil {
+		fmt.Println("git diff Head did run.")
+		cmd := exec.Command("git", "diff", "HEAD")
+		output, err := cmd.Output()
 
-	if err != nil {
-		return "", err
+		if err != nil {
+			return "", err
+		}
+
+		diff := strings.TrimSpace(string(output))
+
+		if diff == "" {
+			return "", fmt.Errorf("No staged changes found. Did you run \"git add\" ?")
+		}
+
+		return diff, nil
 	}
 
-	diff := strings.TrimSpace(string(output))
-
-	if diff == "" {
-		return "", fmt.Errorf("No staged changes found. Did you run \"git add\" ?")
+	if !*didStage {
+		return GetStagedChanges()
 	}
-
-	return diff, nil
+	return "", nil
 }
 
 func Commit(message string) {
@@ -128,7 +123,7 @@ func Commit(message string) {
 	fmt.Println("-----------------------------------------")
 	// Ask for confirmation
 	if !utils.Confirm("Do you want to commit with this message? (Y/n): ") {
-		fmt.Println("Commit Aborted ")
+		color.Red("Commit Aborted ")
 		return
 	}
 
@@ -138,11 +133,11 @@ func Commit(message string) {
 		fmt.Println("Error while committing ", err)
 		return
 	}
-	fmt.Println("✅ Git commit successful")
+	color.Green("✅ Git commit successful")
 }
 
 // CheckAndStage checks for unstaged work and prompts the user to add it
-func CheckAndStage() {
+func CheckAndStage() *bool {
 	// 1. Get the status in a machine-readable format
 	cmd := exec.Command("git", "status", "--porcelain")
 	outputBytes, _ := cmd.Output()
@@ -150,7 +145,7 @@ func CheckAndStage() {
 
 	// If output is empty, the tree is clean (no changes at all)
 	if strings.TrimSpace(output) == "" {
-		return
+		return nil
 	}
 
 	// 2. Check if there are any "unstaged" changes
@@ -169,15 +164,18 @@ func CheckAndStage() {
 
 		status := line[0:2]
 		filePath := line[3:]
+		green := color.New(color.FgGreen).SprintFunc()
+		yellow := color.New(color.FgYellow).SprintfFunc()
+		red := color.New(color.FgRed).SprintfFunc()
 
 		// Check the 2-character status code
 		// If it's "Untracked" (??) or the second char is NOT a space, it's unstaged
 		if strings.HasPrefix(status, "??") {
-			unstagedFiles = append(unstagedFiles, fmt.Sprintf("🆕  %s", filePath))
+			unstagedFiles = append(unstagedFiles, green("🆕  %s", filePath))
 		} else if string(status[1]) == "M" {
-			unstagedFiles = append(unstagedFiles, fmt.Sprintf("📝  %s", filePath))
+			unstagedFiles = append(unstagedFiles, yellow("📝  %s", filePath))
 		} else if string(status[1]) == "D" {
-			unstagedFiles = append(unstagedFiles, fmt.Sprintf("🗑️  %s", filePath))
+			unstagedFiles = append(unstagedFiles, red("🗑️  %s", filePath))
 		}
 	}
 
@@ -192,7 +190,10 @@ func CheckAndStage() {
 
 		// Use your standard confirmation function
 		if !utils.Confirm(" Do you want to run 'git add .' to include them? (Y/n): ") {
-			// TODO: Add a way to skip this step
+			fmt.Println("Committing only the staged changes.")
+			// If the user declined to stage, return false so that we commit only the staged changes.
+			var stage = false
+			return &stage
 		}
 
 		fmt.Println("📦 Running git add . ...")
@@ -202,5 +203,7 @@ func CheckAndStage() {
 			os.Exit(1)
 		}
 		fmt.Println("✅ Files staged.")
+
 	}
+	return nil
 }

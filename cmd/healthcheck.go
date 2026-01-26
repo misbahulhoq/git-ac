@@ -13,21 +13,17 @@ import (
 
 // healthcheckCmd represents the healthcheck command
 var healthcheckCmd = &cobra.Command{
-	Use:   "healthcheck",
+	Use:     "healthcheck",
 	Aliases: []string{"hc", "check"}, // Short hands
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short:   "Checks whether the current directory is a git repository",
+	Long: `Run this command to check whether the current directory is a git repository. 
+			It will return "✅ Git repository detected." if it is a git repository. Otherwise, it will return "❌ Not a git repository."`,
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		if !IsGitRepo() {
 			fmt.Println("❌ Not a git repository.")
 			os.Exit(1)
-		} 
+		}
 		fmt.Println("✅ Git repository detected.")
 	},
 }

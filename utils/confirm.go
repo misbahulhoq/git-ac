@@ -2,14 +2,15 @@ package utils
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func Confirm(message string) bool {
 	// Ask for confirmation
-	fmt.Print(message)
+	color.New(color.FgMagenta).Print(message)
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
 

@@ -11,14 +11,11 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "gcm",
+	Use:     "gcm",
 	Version: "1.0.0",
-	Short: "An AI based Git Committer CLI tool",
+	Short:   "An AI based Git Committer CLI tool",
 	Long: `The Git Committer CLI is a command-line utility developed in Go designed to streamline the software development workflow. It automates the process of writing git commit messages by analyzing staged changes and leveraging Google's Gemini AI to generate context-aware, meaningful, and conventional commit messages.
 `,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -29,18 +26,3 @@ func Execute() {
 		os.Exit(1)
 	}
 }
-
-func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gcm.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("healthcheck", "H", false, "Check git connection")
-	
-}
-
-
