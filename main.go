@@ -31,10 +31,10 @@ func GetAPIKey() string {
 	}
 
 	// B. Check Config File (Standard for installed users)
-	// We look for a file named .gcm_config in the user's home directory
+	// We look for a file named .gcli_config in the user's home directory
 	home, err := os.UserHomeDir()
 	if err == nil {
-		configPath := filepath.Join(home, ".gcm_config")
+		configPath := filepath.Join(home, ".gcli_config")
 		if content, err := os.ReadFile(configPath); err == nil {
 			// Found it! Return the saved key
 			return strings.TrimSpace(string(content))
@@ -58,7 +58,7 @@ func GetAPIKey() string {
 
 	// D. Save it for next time
 	if home != "" {
-		configPath := filepath.Join(home, ".gcm_config")
+		configPath := filepath.Join(home, ".gcli_config")
 		// 0600 means "only the owner can read/write this file" (secure)
 		err := os.WriteFile(configPath, []byte(key), 0600)
 		if err == nil {

@@ -1,6 +1,6 @@
 # GCLI - AI-Powered Git Commit Messages
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/misbahulhoq/gcm)](https://goreportcard.com/report/github.com/misbahulhoq/gcm)
+[![Go Report Card](https://goreportcard.com/badge/github.com/misbahulhoq/gcli)](https://goreportcard.com/report/github.com/misbahulhoq/gcli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **GCLI** is a command-line interface (CLI) tool that uses the power of Google's Gemini AI to automatically generate clear, meaningful, and conventional commit messages for your Git repositories. Stop spending time trying to word the perfect commit message and let AI do it for you!

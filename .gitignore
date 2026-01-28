@@ -1,6 +1,8 @@
 .air.toml
 /tmp
 /gcm
+/gcli
 .env
 gcm.exe
+gcli.exe
 /vendor
