@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/misbahulhoq/gcm/cmd"
+	"github.com/misbahulhoq/gcli/cmd"
 )
 
 func main() {

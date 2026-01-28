@@ -1,4 +1,4 @@
-module github.com/misbahulhoq/gcm
+module github.com/misbahulhoq/gcli
 
 go 1.25.5
 

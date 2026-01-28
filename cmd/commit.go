@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/misbahulhoq/gcm/utils"
+	"github.com/misbahulhoq/gcli/utils"
 	"github.com/spf13/cobra"
 )
 
