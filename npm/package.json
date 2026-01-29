@@ -1,0 +1,23 @@
+{
+  "name": "npm-package",
+  "version": "1.0.0",
+  "description": "AI Git Commit Message Generator",
+  "main": "index.js",
+  "bin": {
+    "gcli": "./bin/gcli"
+  },
+  "scripts": {
+    "install": "node install.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misbahulhoq/gcli.git"
+  },
+  "keywords": [],
+  "author": "Md Mezbah Uddin",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "binwrap": "^0.2.3"
+  }
+}

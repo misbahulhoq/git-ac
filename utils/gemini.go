@@ -23,6 +23,8 @@ func GetMeaningfulCommitMessage(changes string) string {
 
 	s.Suffix = " Generating commit message...\n\n"
 	s.Color("cyan")
+	s.HideCursor = true
+	s.Writer = os.Stderr
 	s.Start()
 
 	if err != nil {
