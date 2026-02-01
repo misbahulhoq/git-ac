@@ -19,5 +19,10 @@
   "type": "commonjs",
   "dependencies": {
     "binwrap": "^0.2.3"
-  }
+  },
+  "files": [
+    "package.json",
+    "install.js",
+    "README.md"
+  ]
 }
