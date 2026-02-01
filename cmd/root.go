@@ -11,11 +11,11 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "gcli",
+	Use:     "git-ac",
 	Version: "1.0.0",
 	Short:   "An AI based Git Committer CLI tool",
 	Long: `
-GCLI is an AI powered Git Committer CLI tool. It uses Google's Gemini API to generate commit messages for you.
+git-ac is an AI powered Git Committer CLI tool. It uses Google's Gemini API to generate commit messages for you.
 `,
 }
 
