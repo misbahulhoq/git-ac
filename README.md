@@ -1,9 +1,9 @@
-# GCLI - AI-Powered Git Commit Messages
+# GIT-AC - AI-Powered Git Auto Commit Messages
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/misbahulhoq/gcli)](https://goreportcard.com/report/github.com/misbahulhoq/gcli)
+[![Go Report Card](https://goreportcard.com/badge/github.com/misbahulhoq/git-ac)](https://goreportcard.com/report/github.com/misbahulhoq/git-ac)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**GCLI** is a command-line interface (CLI) tool that uses the power of Google's Gemini AI to automatically generate clear, meaningful, and conventional commit messages for your Git repositories. Stop spending time trying to word the perfect commit message and let AI do it for you!
+**GIT-AC** is a command-line interface (CLI) tool that uses the power of Google's Gemini AI to automatically generate clear, meaningful, and conventional commit messages for your Git repositories. Stop spending time trying to word the perfect commit message and let AI do it for you!
 
 ## Features
 
@@ -16,27 +16,27 @@
 ## Installation
 
 1.  **Install Go**: Make sure you have Go (version 1.16 or later) installed on your system.
-2.  **Install GCLI**:
+2.  **Install GIT-AC**:
     ```sh
-    go install github.com/misbahulhoq/gcli@latest
+    go install github.com/misbahulhoq/git-ac/cmd/git-ac@latest
     ```
-    This will install the `gcli` binary in your `$GOPATH/bin` directory. Make sure this directory is in your system's `PATH`.
+    This will install the `git-ac` binary in your `$GOPATH/bin` directory. Make sure this directory is in your system's `PATH`.
 
 ## First-Time Setup: API Key
 
-The first time you run `gcli`, it will prompt you for a Google Gemini API key.
+The first time you run `git-ac`, it will prompt you for a Google Gemini API key.
 
 1.  Get your free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-2.  Run any `gcli` command (e.g., `gcli commit`).
+2.  Run any `git-ac` command (e.g., `git-ac commit`).
 3.  Paste the key when prompted.
 
-The key will be saved securely in a `.gcli_config` file in your home directory for future use.
+The key will be saved securely in a `.git-ac_config` file in your home directory for future use.
 
 Alternatively, you can set the `GEMINI_API_KEY` environment variable.
 
 ## Usage
 
-### `gcli commit`
+### `git ac commit`
 
 This is the primary command. It analyzes your file changes, generates a commit message, and prompts you to confirm the commit.
 

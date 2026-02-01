@@ -4,14 +4,14 @@
   "description": "AI Git Commit Message Generator",
   "main": "index.js",
   "bin": {
-    "gcli": "./bin/gcli"
+    "git-ac": "./bin/git-ac"
   },
   "scripts": {
     "install": "node install.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/misbahulhoq/gcli.git"
+    "url": "git+https://github.com/misbahulhoq/git-ac.git"
   },
   "keywords": [],
   "author": "Md Mezbah Uddin",
