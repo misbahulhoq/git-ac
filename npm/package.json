@@ -17,9 +17,6 @@
   "author": "Md Mezbah Uddin",
   "license": "MIT",
   "type": "commonjs",
-  "dependencies": {
-    "binwrap": "^0.2.3"
-  },
   "files": [
     "package.json",
     "install.js",
