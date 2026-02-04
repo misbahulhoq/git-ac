@@ -11,9 +11,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "git-ac",
-	Version: "1.0.0",
-	Short:   "An AI based Git Committer CLI tool",
+	Use: "git-ac",
+	// Version: "1.0.0",
+	Short: "An AI based Git Committer CLI tool",
 	Long: `
 git-ac is an AI powered Git Committer CLI tool. It uses Google's Gemini API to generate commit messages for you.
 `,
@@ -21,7 +21,8 @@ git-ac is an AI powered Git Committer CLI tool. It uses Google's Gemini API to g
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func Execute(version string) {
+	rootCmd.Version = version
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)

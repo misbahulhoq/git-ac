@@ -54,14 +54,17 @@ jobs:
         run: |
           mkdir -p dist
 
+          VERSION="${{ steps.package_version.outputs.version }}"
+          LDFLAGS="-X 'main.Version=$VERSION'"
+
           echo "🚧 Building Windows..."
-          GOOS=windows GOARCH=amd64 go build -o dist/git-ac-windows.exe ./cmd/git-ac
+          GOOS=windows GOARCH=amd64 go build -ldflags="$LDFLAGS" -o dist/git-ac-windows.exe ./cmd/git-ac
 
           echo "🚧 Building Linux..."
-          GOOS=linux GOARCH=amd64 go build -o dist/git-ac-linux ./cmd/git-ac
+          GOOS=linux GOARCH=amd64 go build -ldflags="$LDFLAGS" -o dist/git-ac-linux ./cmd/git-ac
 
           echo "🚧 Building Mac (Intel)..."
-          GOOS=darwin GOARCH=amd64 go build -o dist/git-ac-mac ./cmd/git-ac
+          GOOS=darwin GOARCH=amd64 go build -ldflags="$LDFLAGS" -o dist/git-ac-mac ./cmd/git-ac
 
           # Optional: Mac (Apple Silicon) if you want to support M1/M2 specifically
           # GOOS=darwin GOARCH=arm64 go build -o dist/git-ac-mac-arm64 ./cmd/git-ac

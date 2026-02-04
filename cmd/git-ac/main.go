@@ -15,11 +15,13 @@ import (
 	"github.com/misbahulhoq/gcli/cmd"
 )
 
+var Version = "dev"
+
 func main() {
 	_ = godotenv.Load()
 	key := GetAPIKey()
 	os.Setenv("GEMINI_API_KEY", key)
-	cmd.Execute()
+	cmd.Execute(Version)
 }
 
 // GetAPIKey handles the "Login" logic
