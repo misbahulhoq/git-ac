@@ -40,6 +40,10 @@ var commitCmd = &cobra.Command{
 			if err != nil {
 				fmt.Println(err)
 			}
+			if diff == "" {
+				// an empty string means there are no staged changes so we return. If there are staged changes, we continue. A helpful message will be shown if the user has not run "git add", we already covered that error to a warning in CheckAndStage()
+				return
+			}
 		} else {
 			diff, err = GetAllChanges()
 			if err != nil {
@@ -48,7 +52,8 @@ var commitCmd = &cobra.Command{
 		}
 
 		message := utils.GetMeaningfulCommitMessage(diff)
-		Commit(message)
+		// commitStaged changes can be either true of false. If it's true, then we only commit the staged changes. Otherwise we commit both staged and unstaged changes.
+		Commit(message, commitStagedChanges)
 	},
 }
 
@@ -114,7 +119,10 @@ func GetAllChanges() (string, error) {
 	return "", nil
 }
 
-func Commit(message string) {
+// Commit will print the commit message and ask for confirmation.
+// If the user confirms, it will either run "git commit -m <message>" or "git commit -a -m <message>" depending on the commitStagedChanged flag.
+// If the commit is successful, it will print "✅ Git commit successful". If there is an error while committing, it will print "Error while committing <error>".
+func Commit(message string, commitStagedChanged bool) {
 	// Print the commit message clearly
 	fmt.Println("\n\nProposed commit message: ")
 	fmt.Println("\n-----------------------------------------")
@@ -125,8 +133,13 @@ func Commit(message string) {
 		color.Red("Commit Aborted ")
 		return
 	}
+	var cmd *exec.Cmd
+	if commitStagedChanged {
+		cmd = exec.Command("git", "commit", "-m", message)
+	} else {
+		cmd = exec.Command("git", "commit", "-a", "-m", message)
+	}
 
-	cmd := exec.Command("git", "commit", "-a", "-m", message)
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("Error while committing ", err)
